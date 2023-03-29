@@ -1,3 +1,14 @@
+**Version 0.1.0** (Beta)
+
+# RText
+
+Standalone RText package.
+
+For documentation, demos and tests, see the [full test repo](https://github.com/rabbitboots/rtext).
+
+
+# MIT License
+
 Copyright (c) 2023 RBTS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

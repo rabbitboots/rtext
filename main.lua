@@ -1,3 +1,6 @@
+-- RText demo and test launcher.
+
+--[[
 Copyright (c) 2023 RBTS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -17,3 +20,39 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+--]]
+
+
+--[[
+Usage:
+
+To launch the main demo, just run:
+	`love .`
+
+To run other demos and tests:
+
+In LÖVE 11.x:
+	`love . demo_bare_minimum`
+
+(Note the dot, and the lack of a '.lua' extension on the end.)
+
+In LÖVE 12, you can just call the .lua file directly:
+	`love demo_bare_minimum.lua`
+--]]
+
+
+-- Debug helper stuff
+--[[
+local _print = print
+print = function(...)
+	_print(...)
+	_print(debug.traceback())
+end
+--]]
+
+function love.load(arguments)
+
+	local demo_id = arguments[1] or "demo"
+
+	require(demo_id)
+end
