@@ -27,6 +27,9 @@ RText (Rich Text) is a text formatting and display library for the LÖVE Framewo
 Check out `demo.lua` for some examples.
 
 
+![rtext_pic_1](https://user-images.githubusercontent.com/23288188/228692208-606d9a76-1804-4fea-9efd-2647af27aac2.png)
+
+
 ## About This Package
 
 The `rtext` subdirectory is all that's needed when integrating RText into a project. The rest of this repo consists of demos, testing and documentation.
