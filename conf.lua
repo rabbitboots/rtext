@@ -1,4 +1,4 @@
-jit.off()
+--jit.off()
 
 function love.conf(t)
 	local major, minor = love.getVersion()
