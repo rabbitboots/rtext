@@ -77,9 +77,6 @@ local demo_doc_y2 = 0
 
 
 local demo_scroll_y = 0
-local demo_align = "left"
-local demo_align_justify_last = false -- controls justify alignment of the last line of a paragraph
-local demo_v_align = "top"
 local demo_debug_render = false
 
 local mouse_focus = false
