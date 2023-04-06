@@ -35,6 +35,12 @@ A paragraph has the wrong alignment: RText locks some state for the duration of 
 
 Placing `[align]` in the middle of lines should be avoided. It will change alignment of the next Wrap-Line, not the next Paragraph. You can place it after a `[br]`, though.
 
+`justify` alignment isn't working or looks buggy:
+
+* Make sure that Block Merge mode is inactive. It merges text into fewer, larger Text Blocks, which breaks the RText justify implementation. You can check `rt.lplace.block_merge_mode`, which is true when active.
+
+* Check that the `j_x_step` setting is 1. This is a niche feature for mono spaced text with justify alignment. Any other number for variable width fonts will probably look bad. Unfortunately, there are multiple variables named `j_x_step`: it's a Paragraph Style field, and also a field in the RText instance (plus `_j_x_step`, prefixed with an underscore).
+
 
 ## Paragraph Style changes are not working.
 
