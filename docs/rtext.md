@@ -394,3 +394,19 @@ Sets the Instance block granularity level, which controls how text is split into
 3. Block granularity should not be modified in the middle of a parsing job.
 
 
+## rt:setBlockMergeMode
+
+Sets the *Block Merge* mode.
+
+When true, Text Blocks are extended whenever incoming word fragments share the same Block Style and shape state. This reduces the number of Text Blocks in the final Document, at the expense of more string concatenations during its construction.
+
+`rt:setBlockMergeMode(enabled)`
+
+* `enabled`: `true` or `false` to set the Block Merge mode.
+
+### Notes
+
+1. Block Merge mode is off by default. It breaks justify alignment, and there may be differences in how a merged Text Block's width is measured.
+
+2. Block Merge mode should not be changed in the middle of a parsing job.
+

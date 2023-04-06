@@ -1,4 +1,4 @@
-**Version 0.1.0** (Beta)
+**Version 0.1.1** (Beta)
 
 # RText
 

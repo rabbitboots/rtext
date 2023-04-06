@@ -122,6 +122,18 @@ while d_i <= #d7_input do
 end
 
 
+-- (8) rt:parseText() with Merged Block mode enabled.
+rt = rtext.newInstance(font_groups, "norm")
+rt:setBlockMergeMode(true)
+local doc8 = media.newDocument()
+local d8_input = "One Two Three Four"
+local d8_i = 1
+while d8_i <= #d8_input do
+	d8_i = rt:parseText(d8_input, doc8, d8_i, 1)
+end
+rt:setBlockMergeMode(false)
+
+
 function love.draw()
 
 	-- Illustrate the wrap-limit:
@@ -158,6 +170,16 @@ function love.draw()
 
 	-- (7)
 	doc7:draw(500, 0)
+
+	-- (8)
+	doc8:draw(500, 300)
+
+	-- Prove that all four words were merged into one Text Block.
+	local block8 = doc8.paragraphs[1].lines[1].blocks[1]
+	love.graphics.push("all")
+	love.graphics.setColor(1, 0, 0, 1)
+	love.graphics.rectangle("line", 500, 300, block8.w, block8.h)
+	love.graphics.pop()
 end
 
 
@@ -170,7 +192,7 @@ function love.keypressed(kc, sc)
 end
 
 
---[=[
+-- [=[
 -- Assertion tests
 do
 	local rt
@@ -247,5 +269,7 @@ do
 	--rt:parseText("foo\nbar", false, i, math.huge) -- #2 bad type
 	--rt:parseText("foo\nbar", document, {}, math.huge) -- #3 bad type
 	--rt:parseText("foo\nbar", document, 1, function() end) -- #4 bad type
+
+	--rt:setBlockMergeMode("foo") -- #1 bad type
 end
 --]=]

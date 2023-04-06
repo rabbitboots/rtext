@@ -312,7 +312,7 @@ Simple Paragraphs do not support underlines, backgrounds or strike-through lines
 
 The default Simple Paragraph draw method supports Transform and Color parameters, and the `cb_drawFirst` and `cb_drawLast` callbacks.
 
-As of v0.1.0, RText does not provide a way to generate Simple Paragraphs from markup.
+As of v0.1.1, RText does not provide a way to generate Simple Paragraphs from markup.
 
 
 ## media.newSimpleParagraph

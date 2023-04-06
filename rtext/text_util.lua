@@ -23,14 +23,7 @@ SOFTWARE.
 --]]
 
 
---[[
-Functions to assist with reading multi-byte UTF-8 whitespace characters and grapheme
-clusters.
---]]
-
-
 local textUtil = {}
-
 
 
 local REQ_PATH = ... and (...):match("(.-)[^%.]+$") or ""
@@ -437,14 +430,11 @@ end
 -- * Text width *
 
 
-local temp_str = {} -- used with textUtil.getTextWidth()
---- Get the width of a string or coloredtext sequence.
-function textUtil.getTextWidth(text, font)
-
-	local width
+local temp_str = {} -- used with textUtil.getStringsFromColoredText()
+function textUtil.getStringFromText(text)
 
 	if type(text) == "string" then
-		width = font:getWidth(text)
+		return text
 
 	else
 		for i, chunk in ipairs(text) do
@@ -455,12 +445,21 @@ function textUtil.getTextWidth(text, font)
 
 		local concat = table.concat(temp_str)
 
-		width = font:getWidth(concat)
-
 		for i = #temp_str, 1, -1 do
 			temp_str[i] = nil
 		end
+
+		return concat
 	end
+end
+
+
+
+--- Get the width of a string or coloredtext sequence.
+function textUtil.getTextWidth(text, font)
+
+	local str = textUtil.getStringFromText(text)
+	local width = font:getWidth(str)
 
 	return width
 end

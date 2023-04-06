@@ -25,6 +25,7 @@ SOFTWARE.
 
 local linePlacer = {}
 
+
 --[[
 LinePlacer arranges marked-up text into wrapped lines of text blocks and
 handles line-wrap and breaking words.
@@ -98,21 +99,42 @@ end
 
 local function writeLineBlock(self, x, blocks, b_style, font_h, combined, word_w, space_w, has_ws, color, color_ul, color_st, color_bg)
 
-	local block = textBlock.newTextBlock(
-		combined,
-		b_style,
-		x,
-		0,
-		word_w,
-		font_h,
-		space_w,
-		has_ws,
-		color,
-		color_ul,
-		color_st,
-		color_bg
-	)
-	blocks[#blocks + 1] = block
+	local last_block = blocks[#blocks]
+	if last_block
+	and self.block_merge_mode
+	and getmetatable(last_block) == b_style
+	and last_block.color_ul == color_ul
+	and last_block.color_st == color_st
+	and last_block.color_bg == color_bg
+	then
+		textBlock.extend(last_block, combined, color)
+
+		-- Need to recalculate block measurements.
+		local str = textUtil.getStringFromText(last_block.text)
+		local font = b_style.font
+		local new_word, new_space = textUtil.walkFull(str, 1)
+
+		last_block.w = font:getWidth(new_word) * b_style.f_sx
+		last_block.has_ws = (#new_space > 0)
+		last_block.ws_w = #new_space > 0 and (font:getWidth(new_space) * b_style.f_sx) or 0
+
+	else
+		local block = textBlock.newTextBlock(
+			combined,
+			b_style,
+			x,
+			0,
+			word_w,
+			font_h,
+			space_w,
+			has_ws,
+			color,
+			color_ul,
+			color_st,
+			color_bg
+		)
+		blocks[#blocks + 1] = block
+	end
 end
 
 
@@ -191,6 +213,13 @@ function linePlacer.new(def_b_style)
 	-- collection.
 	self.word_buf_cutoff = 0
 
+	-- When true, fragments are merged into the last Text Block when they have compatible styles.
+	-- This can result in less memory usage for the final Document, but it performs additional
+	-- string concatenations during construction, and it will break justify alignment. It should
+	-- not be used with cluster or code-point granularity (it will incur a lot of overhead for
+	-- no real benefit).
+	self.block_merge_mode = false
+
 	setmetatable(self, _mt_lp)
 
 	return self
@@ -205,8 +234,7 @@ function _mt_lp:reset()
 end
 
 
---- Kerning offsets are rolled into block width dimensions. As a result, it's technically possible that a width
---	may be zero or less.
+--- Kerning offsets are rolled into block width dimensions.
 function linePlacer.setFragmentSize(prev, frag)
 
 	local font = frag.b_style.font
@@ -273,13 +301,15 @@ end
 
 
 local function getLastColoredTextString(coloredtext)
+
 	for i = #coloredtext, 1, -1 do
 		local chunk = coloredtext[i]
 		if type(chunk) == "string" then
 			return i, chunk
 		end
 	end
-	return nil, nil
+
+	-- (return nil, nil)
 end
 
 
@@ -301,17 +331,14 @@ function linePlacer.getBlockFragmentKerning(block, frag)
 			if not last_text then
 				error("no strings in this coloredtext. (Can't get kerning against an empty string.)")
 			end
+
 		else
 			last_text = block.text
 		end
 
-		-- [[
 		local offset = kerningPairs(b_style.font, last_text, frag.combined) * b_style.f_sx
 		--print("linePlacer.getBlockFragmentKerning(): offset:", offset)
-		if offset ~= 0 then
-			--error("breakpoint")
-		end
-		--]]
+
 		return kerningPairs(b_style.font, last_text, frag.combined) * b_style.f_sx
 	end
 
@@ -481,7 +508,7 @@ end
 
 --- Fit as much of the word buffer contents as possible into a block array. Intended to be called in a loop. The caller needs to clear the word buffer after the work is finished.
 -- @param blocks The block array.
--- @param f Index of the current fragment in the word buffer. The first call should be 1, and subsequent calls should use the fragment index returned by this function.
+-- @param f Index of the current fragment in the word buffer. Should be 1 on the first call, and subsequent calls should use the fragment index returned by this function.
 -- @param cluster_gran When true, break words by grapheme cluster boundaries. When false/nil, break by code points.
 -- @return The index of the next fragment (f). Work is complete if 'f > self.word_buf_len'.
 function _mt_lp:breakBuf(blocks, f, cluster_gran)

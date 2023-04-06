@@ -971,6 +971,19 @@ function _mt_rt:setBlockGranularity(level)
 end
 
 
+function _mt_rt:setBlockMergeMode(enabled)
+
+	enabled = enabled or false
+
+	-- Assertions
+	-- [[
+	if type(enabled) ~= "boolean" then errArgBadType(1, enabled, "boolean") end
+	--]]
+
+	self.lplace.block_merge_mode = enabled
+end
+
+
 return rtext
 
 
