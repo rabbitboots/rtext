@@ -430,7 +430,7 @@ end
 -- * Text width *
 
 
-local temp_str = {} -- used with textUtil.getStringsFromColoredText()
+local temp_str = {}
 function textUtil.getStringFromText(text)
 
 	if type(text) == "string" then
