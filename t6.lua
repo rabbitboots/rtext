@@ -192,7 +192,7 @@ function love.keypressed(kc, sc)
 end
 
 
--- [=[
+--[=[
 -- Assertion tests
 do
 	local rt
