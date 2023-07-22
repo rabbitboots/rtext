@@ -300,7 +300,7 @@ Generates a Document from an input string.
 
 Generates one paragraph from an input string, from `i` to the next line feed or end of the string.
 
-`local para, next_i = rt:makeParagraph(input, i, wrap_w`
+`local para, next_i = rt:makeParagraph(input, i, wrap_w)`
 
 * `input`: The input string.
 
