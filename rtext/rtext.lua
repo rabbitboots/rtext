@@ -33,10 +33,6 @@ local rtext = {}
 local utf8 = require("utf8")
 
 
--- Troubleshooting
-local inspect = require("demo_lib.inspect.inspect")
-
-
 local aligner = require(REQ_PATH .. "aligner")
 local media = require(REQ_PATH .. "media")
 local linePlacer = require(REQ_PATH .. "line_placer")
@@ -247,7 +243,7 @@ function rtext.newInstance(font_groups, default_f_grp_id, colors, word_styles, p
 	-- When attaching non-core tag defs, check their documentation for requirements.
 	self.data = data or false
 
-	-- Tag patterns. These are used in plain mode, and so are literal matches (no string patterns).
+	-- Tag patterns. These are used in plain mode, so they are literal matches (no string patterns).
 	self.t1 = "["
 	self.t2 = "]"
 
