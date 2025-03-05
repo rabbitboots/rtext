@@ -1,4 +1,4 @@
-**Version 0.1.1** (Beta)
+**Version 0.1.2** (Beta)
 
 # RText
 
@@ -50,7 +50,7 @@ The `rtext` subdirectory is all that's needed when integrating RText into a proj
 
 # MIT License
 
-Copyright (c) 2023 RBTS
+Copyright (c) 2023 - 2025 RBTS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

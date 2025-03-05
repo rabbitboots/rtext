@@ -1,7 +1,7 @@
 -- Main RText demo.
 
 --[[
-Copyright (c) 2023 RBTS
+Copyright (c) 2023 - 2025 RBTS
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -104,7 +104,7 @@ table.insert(samples, {
 })
 
 table.insert(samples, {
-	text = 
+	text =
 		"1 2 3 4 5 6 7 8 9 10 11 12 13 14 15\n" ..
 		"16 17 18 19 20 21 22 23 24 25 26 27 28 29 30\n" ..
 		"31 32 33 34 35 36 37 38 39 40 41 42 43 44 45\n" ..
@@ -926,7 +926,7 @@ do
 	data.image_para = {}
 	local tex2 = love.graphics.newImage("demo_res/image/openclipart-cat-rowing-a-boat-337658_REDUCED.png")
 	local p_img_def = auxiliary.imagePara_newDef(tex2)
-	
+
 	p_img_def.w = FSCALE(p_img_def.w)
 	p_img_def.h = FSCALE(p_img_def.h)
 	p_img_def.sx = FSCALE(1.0)
@@ -1023,7 +1023,8 @@ function love.keypressed(kc, sc)
 		demo_debug_render = not demo_debug_render
 
 	elseif kc == "0" then
-		love.window.setVSync(math.max(0, 1 - love.window.getVSync()))
+		-- VSync values may vary depending on the system and graphics driver.
+		love.window.setVSync(love.window.getVSync() == 0 and 1 or 0)
 	end
 
 	if needs_update then

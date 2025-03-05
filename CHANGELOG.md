@@ -1,6 +1,11 @@
 
 # RText Changelog
 
+## 0.1.2: 2025-Mar-05
+* `demo.lua`: Fixed VSync toggle.
+* Updated copyright year.
+
+
 ## 0.1.1: 2023-Apr-06
 * Added `rt:setBlockMergeMode()`.
   * Added Block Merge test to `t6.lua`.
